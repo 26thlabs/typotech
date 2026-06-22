@@ -7,11 +7,13 @@ export default async function Home() {
 
   return (
     <div className="flex-grow flex flex-col justify-center gap-8">
-      {/* Banner */}
+      {/* Banner — width/height 预设宽高比，避免图片加载时文字抖动 */}
       <img
         src={site.banner}
         alt=""
-        className="w-full rounded-lg"
+        width={1440}
+        height={480}
+        className="w-full h-auto rounded-lg bg-subtle"
         loading="eager"
       />
 
