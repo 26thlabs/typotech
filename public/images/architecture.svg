@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="300" viewBox="0 0 720 300">
+  <rect width="720" height="300" fill="#F5F5F7" rx="8"/>
+  <!-- 浏览器 -->
+  <rect x="30" y="100" width="140" height="100" rx="6" fill="#FFFFFF" stroke="#1D1D1F" stroke-width="1.5"/>
+  <text x="100" y="145" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#1D1D1F" font-weight="600">浏览器</text>
+  <text x="100" y="168" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#86868B">localhost:3000</text>
+  <!-- 箭头 1 -->
+  <line x1="175" y1="150" x2="235" y2="150" stroke="#86868B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- Next.js -->
+  <rect x="240" y="90" width="160" height="120" rx="6" fill="#FFFFFF" stroke="#0071E3" stroke-width="2"/>
+  <text x="320" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" fill="#0071E3" font-weight="700">Next.js</text>
+  <text x="320" y="158" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#86868B">App Router</text>
+  <text x="320" y="178" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#86868B">MDX + Shiki + KaTeX</text>
+  <!-- 箭头 2 -->
+  <line x1="405" y1="150" x2="465" y2="150" stroke="#86868B" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <!-- 静态文件 -->
+  <rect x="470" y="100" width="140" height="100" rx="6" fill="#FFFFFF" stroke="#1D1D1F" stroke-width="1.5"/>
+  <text x="540" y="140" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#1D1D1F" font-weight="600">静态 HTML</text>
+  <text x="540" y="163" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#86868B">SSG 预渲染</text>
+  <!-- 标记 -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#86868B"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,251 @@
+@import "tailwindcss";
+
+/* ==================================================
+   Typography Design Token System
+   Source: design.yaml
+   Style: Apple Inspired
+   ================================================== */
+
+/* ===== Tailwind v4 @theme 注册 ===== */
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-secondary: var(--color-ink-secondary);
+  --color-ink-tertiary: var(--color-ink-tertiary);
+  --color-accent: var(--color-accent);
+  --color-paper: var(--color-paper);
+  --color-subtle: var(--color-subtle);
+  --color-border: var(--color-border);
+  --font-sans: var(--font-inter), "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-fira-code), "Noto Sans Mono", "Consolas", monospace;
+  --font-article: var(--font-inter), "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-logo: var(--font-logo), "Noto Serif SC", serif;
+}
+
+/* ===== 排版缩放 (design.yaml typography.scale) ===== */
+
+.prose-article {
+  /* body token: 18px / 32px / regular / letter-spacing: 0 */
+  font-size: 18px;
+  line-height: 32px;
+  font-weight: 400;
+  font-family: var(--font-article);
+  letter-spacing: 0;
+}
+
+.prose-article p {
+  /* paragraphSpacing: 24px */
+  margin-top: 24px;
+  margin-bottom: 24px;
+  text-align: justify;
+  hyphens: auto;
+  hyphenate-limit-chars: 8 4 4;
+}
+
+/* ===== 基础排版 (design.yaml typography.fontWeight) ===== */
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-weight: 400;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== 主题切换平滑过渡 ===== */
+/* 仅在 theme-ready 后启用，避免首次渲染闪烁 */
+
+html.theme-ready *,
+html.theme-ready *::before,
+html.theme-ready *::after {
+  transition-property:
+    background-color,
+    color,
+    border-color,
+    outline-color,
+    box-shadow,
+    text-decoration-color,
+    fill,
+    stroke;
+  transition-duration: 0.35s;
+  transition-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-ready *,
+  html.theme-ready *::before,
+  html.theme-ready *::after {
+    transition-duration: 0s !important;
+  }
+}
+
+/* ===== Focus 环 (可访问性) ===== */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ===== 选中 ===== */
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-ink);
+}
+
+/* ===== Landing 文字 (design.yaml: scale.body → 18px/32px) ===== */
+
+.landing {
+  font-size: 18px;
+  line-height: 32px;
+  font-weight: 400;
+  font-family: var(--font-article);
+  text-align: justify;
+}
+
+/* ===== Shiki 代码高亮 ===== */
+
+code span { transition: color 0.2s; }
+
+/* 代码块外层样式 (design.yaml: code.block → 15px/26px) */
+.shiki-wrapper { margin: 24px 0; }
+.shiki-wrapper pre {
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  background: var(--color-subtle);
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  font-size: 15px;
+  line-height: 26px;
+  font-weight: 400;
+}
+.shiki-wrapper pre code {
+  white-space: pre-wrap !important;
+  word-break: break-word;
+}
+
+/* ===== 暗色模式 (design.yaml typography.color dark values) ===== */
+
+:root.dark {
+  --color-ink: #F5F5F7;
+  --color-ink-secondary: #A1A1A6;
+  --color-ink-tertiary: #86868B;
+  --color-accent: #2997FF;
+  --color-paper: #000000;
+  --color-subtle: #1C1C1E;
+  --color-border: #38383A;
+
+  /* Shiki 暗色 token */
+  --shiki-color-text: #F5F5F7;
+  --shiki-color-background: transparent;
+  --shiki-token-constant: #2997FF;
+  --shiki-token-string: #7dbe90;
+  --shiki-token-string-expression: #7dbe90;
+  --shiki-token-comment: #86868B;
+  --shiki-token-keyword: #f06050;
+  --shiki-token-function: #2997FF;
+  --shiki-token-parameter: #A1A1A6;
+  --shiki-token-punctuation: #86868B;
+  --shiki-token-link: #2997FF;
+
+  /* Tailwind zinc 色板反转 (Apple 风格灰阶) */
+  --color-zinc-50: #1C1C1E;
+  --color-zinc-100: #2C2C2E;
+  --color-zinc-200: #38383A;
+  --color-zinc-300: #48484A;
+  --color-zinc-400: #636366;
+  --color-zinc-500: #8E8E93;
+  --color-zinc-600: #AEAEB2;
+  --color-zinc-700: #C7C7CC;
+  --color-zinc-800: #E5E5EA;
+  --color-zinc-900: #F5F5F7;
+}
+
+:root.dark .shiki-wrapper pre {
+  background: #1C1C1E;
+  border-color: #38383A;
+}
+
+:root.dark ::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+/* 系统偏好兜底（JS 未执行时） */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --color-ink: #F5F5F7;
+    --color-ink-secondary: #A1A1A6;
+    --color-ink-tertiary: #86868B;
+    --color-accent: #2997FF;
+    --color-paper: #000000;
+    --color-subtle: #1C1C1E;
+    --color-border: #38383A;
+
+    /* Shiki 暗色 token */
+    --shiki-color-text: #F5F5F7;
+    --shiki-color-background: transparent;
+    --shiki-token-constant: #2997FF;
+    --shiki-token-string: #7dbe90;
+    --shiki-token-string-expression: #7dbe90;
+    --shiki-token-comment: #86868B;
+    --shiki-token-keyword: #f06050;
+    --shiki-token-function: #2997FF;
+    --shiki-token-parameter: #A1A1A6;
+    --shiki-token-punctuation: #86868B;
+    --shiki-token-link: #2997FF;
+
+    /* Tailwind zinc 色板反转 */
+    --color-zinc-50: #1C1C1E;
+    --color-zinc-100: #2C2C2E;
+    --color-zinc-200: #38383A;
+    --color-zinc-300: #48484A;
+    --color-zinc-400: #636366;
+    --color-zinc-500: #8E8E93;
+    --color-zinc-600: #AEAEB2;
+    --color-zinc-700: #C7C7CC;
+    --color-zinc-800: #E5E5EA;
+    --color-zinc-900: #F5F5F7;
+  }
+
+  :root:not(.light) .shiki-wrapper pre {
+    background: #1C1C1E;
+    border-color: #38383A;
+  }
+
+  :root:not(.light) ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  }
+}
+
+/* ===== 打印样式 ===== */
+
+@media print {
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+
+  header, footer, .shiki-wrapper pre {
+    background: transparent !important;
+    border: 1px solid #ccc !important;
+  }
+
+  a { color: inherit; text-decoration: underline; }
+  .shiki-wrapper pre { page-break-inside: avoid; }
+  pre, code { white-space: pre-wrap; word-break: break-all; }
+}
+
+/* ===== KaTeX ===== */
+
+.katex {
+  font-size: 1.05em;
+}
+.katex-display > .katex {
+  font-size: 1.1em;
+}

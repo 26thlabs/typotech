@@ -1,0 +1,329 @@
+export const metadata = {
+  title: '快速上手',
+  author: 'editor',
+  date: '2026.06.22',
+  tags: ['guide', 'mdx'],
+  description: '项目介绍、部署指南与 MDX 写作手册，三合一。',
+}
+
+## 项目介绍
+
+Typotech 是一套**排版驱动的技术博客模板**——设计令牌控制全局样式、明暗主题平滑切换、MDX 组件混写、零客户端 JS 的文章页。Fork → Vercel，十分钟上线。
+
+### 快速开始
+
+```bash
+pnpm install
+pnpm dev      # http://localhost:3000
+pnpm build    # 生产构建
+```
+
+### 项目结构
+
+```text
+typotech/
+├── app/
+│   ├── blog/[slug]/page.tsx     # 文章页 (SSG)
+│   ├── blog/page.tsx            # 文章目录
+│   ├── tags/[tag]/page.tsx      # 标签筛选
+│   ├── layout.tsx               # 根布局 + 字体 + 主题注入
+│   ├── globals.css              # 设计令牌 + 排版 + 暗色模式
+│   └── page.tsx                 # 首页 Banner + 简介
+├── components/
+│   ├── header.tsx               # 导航栏（Logo + Nav + 主题切换）
+│   ├── footer.tsx               # 页脚（链接 + 版权）
+│   ├── post-list.tsx            # 文章列表（按年份分组）
+│   ├── tag-pills.tsx            # 标签药丸
+│   ├── theme-toggle.tsx         # 明暗主题切换按钮
+│   └── observable-embed.tsx     # ObservableHQ 交互式图表嵌入
+├── content/                     # 文章 MDX（从此处写文章）
+├── lib/
+│   ├── site.ts                  # 站点配置（名称、主题色、导航、页脚）
+│   ├── articles.ts              # 文章数据层（扫描 MDX、排序、阅读时间）
+│   └── highlighter.ts           # Shiki 语言注册（25+ 语言）
+├── public/images/               # 文章配图 + Banner
+└── mdx-components.tsx           # MDX 自定义组件（Headings / Code / Caption …）
+```
+
+### 技术栈
+
+| 层 | 选型 | 说明 |
+|------|------|------|
+| 框架 | Next.js 16 (App Router) | RSC + SSG，文章页零客户端 JS |
+| 样式 | Tailwind CSS v4 | `@theme inline` 注入设计令牌 |
+| 内容 | MDX (RS) | ESM metadata，GFM 支持 |
+| 代码高亮 | Shiki | CSS Variables 主题，明暗自适应 |
+| 公式 | KaTeX | 行内 + 块级 |
+| 可视化 | ObservableHQ | 交互式图表嵌入 |
+| 字体 | Inter / Fira Code / Noto Sans SC / DM Serif Display | next/font/google 自托管 |
+
+---
+
+## 部署
+
+Fork → Vercel，三步上线：
+
+**1. Fork 仓库**
+
+点击项目 GitHub 页面右上角 **Fork**，将项目复制到你的账户。
+
+**2. 导入 Vercel**
+
+登录 [Vercel](https://vercel.com)，点击 **New Project** → 选择 Fork 的仓库。Vercel 自动识别 Next.js，无需任何配置。
+
+**3. 设置域名**
+
+在 Vercel 项目 Settings → Domains 添加自定义域名，并设置环境变量：
+
+```
+NEXT_PUBLIC_SITE_URL = https://你的域名
+```
+
+<Caption>每次 push 到 main 分支自动触发部署，SSL 证书、CDN 全部自动处理。</Caption>
+
+### 本地开发
+
+```bash
+pnpm install
+pnpm dev      # http://localhost:3000
+```
+
+---
+
+## MDX 写作手册
+
+### Frontmatter
+
+每篇文章顶部以 `export const metadata` 声明元数据，TypeScript 语法：
+
+```typescript
+export const metadata = {
+  title: '文章标题',                // 必填 — 页头 h1 + <title>
+  date: '2026.06.22',               // 必填 — YYYY.MM.DD，用于排序
+  author: 'yourname',               // 可选 — 显示为 @author
+  description: '一句话摘要。',       // 可选 — SEO + RSS + 列表预览
+  tags: ['tag1', 'tag2'],           // 可选 — 生成 /tags/[tag] 筛选页
+  draft: true,                      // 可选 — true 时跳过生产构建
+  image: 'og-image.png',            // 可选 — 社交卡片预览图
+};
+```
+
+<Caption>每个字段的用途写在行末注释中。`date` 格式必须为 `YYYY.MM.DD`，用 `.` 分隔。`tags` 建议 2—3 个，全小写英文。</Caption>
+
+### 标题层级
+
+正文从 `## ` 开始——页头已渲染 `metadata.title` 为 h1，**正文内不应再出现 `# `**。
+
+| 层级 | 写法 | 效果 |
+|------|------|------|
+| h2 | `## 章节标题` | 36px / 44px semibold |
+| h3 | `### 小节标题` | 28px / 36px semibold |
+| h4 | `#### 微型标题` | 22px / 30px semibold |
+
+<Caption>写法：`##` 后留一个空格再接文字。h2 自动带有 `#` 锚点链接，hover 可见。</Caption>
+
+### 行内格式
+
+下面是各格式的**实际渲染效果**（源码见页面右上角或直接查看 `.mdx` 文件）：
+
+| 格式 | Markdown | 渲染效果 |
+|------|----------|----------|
+| 加粗 | `**text**` | **加粗文字** |
+| 斜体 | `*text*` | *倾斜文字* |
+| 删除线 | `~~text~~` | ~~已删除内容~~ |
+| 行内代码 | `` `code` `` | `const x = 42` |
+| 链接 | `[text](url)` | [示例链接](#快速上手) |
+
+### 代码块
+
+用三个反引号包裹，**始终标注语言名称**：
+
+````markdown
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+```
+````
+
+渲染效果——Shiki 服务端高亮，明暗主题自动适配：
+
+```typescript
+function greet(name: string): string {
+  return `Hello, ${name}!`
+}
+```
+
+<Caption>写法：```` ```语言名 ```` 开头，```` ``` ```` 单独一行结尾。语言名必须与 `lib/highlighter.ts` 中的列表匹配，否则构建报错。支持 TypeScript、Python、Rust、Go、Bash、JSON、YAML、SQL、HTML、CSS 等 25+ 种。</Caption>
+
+### 图片
+
+#### 无说明图的写法
+
+本地图片放入 `public/images/` 后，**不带路径前缀**直接引用：
+
+```markdown
+![架构图](architecture.svg)
+```
+
+实际渲染效果——图片自动撑满内容宽度、圆角、懒加载：
+
+![架构图](architecture.svg)
+
+外部图片直接粘贴完整 URL。
+
+#### 带说明的图（Figure）
+
+需要说明文字时用 `<figure>` + `<FigCaption>`——专用图注组件，居中、与 caption 同款 14px / 24px：
+
+```html
+<figure>
+  <img src="/images/benchmark.svg" alt="Lighthouse 评分" />
+  <FigCaption>图 2：Lighthouse 性能评分——SSG 预渲染获得满分。</FigCaption>
+</figure>
+```
+
+<figure>
+  <img src="/images/benchmark.svg" alt="Lighthouse 评分" />
+  <FigCaption>图 2：Lighthouse 性能评分——SSG 预渲染获得满分。</FigCaption>
+</figure>
+
+<Small>关键规则：用 `<FigCaption>` 而非原生 `<figcaption>`——MDX-RS 不拦截原生 HTML 标签，`<figcaption>` 会丢失所有样式。`<FigCaption>` 走 MDX 组件映射，居中、`mt-3`。图注和表注均用此组件。</Small>
+
+### 数学公式
+
+KaTeX 渲染，支持 LaTeX 语法。
+
+#### 行内公式——`<InlineMath>` 组件，反斜杠需双写 `\\`
+
+```html
+当 <InlineMath>{`n \\to \\infty`}</InlineMath> 时级数收敛。
+```
+
+当 <InlineMath>{`n \\to \\infty`}</InlineMath> 时级数收敛。
+
+#### 块级公式——`<BlockMath>` 组件，独立居中
+
+```html
+<BlockMath>{`\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}`}</BlockMath>
+```
+
+<BlockMath>{`\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}`}</BlockMath>
+
+<Small>关键规则：反斜杠在 JSX 模板字符串 `` {`...`} `` 内必须双写 `\\`，否则 MDX-RS 将其当作 Unicode 转义序列（`\s`、`\f`、`\i` 等）导致编译错误。</Small>
+
+### 引用块
+
+写法：每行以 `> ` 开头。段落间用 `>` 空行分隔：
+
+```markdown
+> 第一段引用文字。
+>
+> 第二段引用文字。
+```
+
+实际渲染——20px / 34px / secondary 色 / 左侧 2px 边框：
+
+> 好的代码是写给人看的，顺便能在机器上运行。
+>
+> —— *Structure and Interpretation of Computer Programs*
+
+### 列表
+
+#### 无序列表——每行 `- ` 开头，子项缩进**两个空格**
+
+```markdown
+- 一级项目
+- 一级项目
+  - 二级项目（两个空格缩进）
+- 回到一级
+```
+
+- 一级项目
+- 一级项目
+  - 二级项目（两个空格缩进）
+- 回到一级
+
+#### 有序列表——每行 `1. ` 开头，数字自动递增
+
+1. 第一步
+2. 第二步
+3. 第三步
+
+#### 任务列表——`- [ ]` 未完成，`- [x]` 已完成
+
+- [x] 已完成的功能
+- [ ] 待办事项
+- [ ] 另一项待办
+
+### 表格
+
+| 属性 | 类型 | 说明 |
+|------|------|------|
+| `title` | `string` | 文章标题（必填） |
+| `date` | `string` | 发布日期，格式 `YYYY.MM.DD` |
+| `author` | `string` | 作者名 |
+| `tags` | `string[]` | 标签列表 |
+| `draft` | `boolean` | 草稿标记 |
+
+<FigCaption>表 1：metadata 字段一览。</FigCaption>
+
+表格说明也用 `<FigCaption>`——紧贴表格、居中，与图注一致。
+
+### 专用组件
+
+| 组件 | 用途 | 对齐 | 边距 |
+|------|------|:--:|:--:|
+| `<FigCaption>` | 图注 / 表注 | 居中 | `mt-3` |
+| `<Caption>` | 数据来源、代码注释 | 左 | `my-3` |
+| `<Small>` | 附注、勘误 | 左 | `my-2` |
+
+实际渲染：
+
+<FigCaption>FigCaption —— 图注 / 表注，居中、caption 令牌。</FigCaption>
+
+<Caption>Caption —— 通用标注，左对齐、caption 令牌。</Caption>
+
+<Small>Small —— 附注、small 令牌 16px / 28px。</Small>
+
+### ObservableHQ 嵌入
+
+使用 `<ObservableEmbed>` 组件嵌入交互式可视化，指定 notebook 和 cells：
+
+```html
+<ObservableEmbed notebook="@d3/zoomable-sunburst" cells="chart" />
+```
+
+<ObservableEmbed notebook="@d3/zoomable-sunburst" cells="chart" />
+
+<FigCaption>图 3：D3 旭日图——ObservableHQ 嵌入示例。高度默认 440px，可通过 `height` 属性调整。</FigCaption>
+
+---
+
+## 站点配置
+
+所有可定制项集中在 `lib/site.ts`：
+
+```typescript
+export const site = {
+  name: 'Typotech',
+  description: '排版驱动的技术博客模板。',
+  url: 'https://typotech.dev',
+  intro: '首页简介（2—3 句）。',
+  banner: '/images/banner.svg',
+};
+
+export const theme = { /* 明暗主题色 */ };
+export const footerLinks = [ /* 页脚链接 */ ];
+export const nav = { /* 导航栏 */ };
+```
+
+### 自定义 Banner
+
+1. 准备一张横幅图片（建议 1440×480）
+2. 放入 `public/images/`
+3. 更新 `site.banner` 路径，`pnpm build` 后生效
+
+---
+
+*更多细节请参考项目根目录的`mdx-components.tsx`。整个项目不超过 20 个源文件，直接看源码比任何文档都准确。*

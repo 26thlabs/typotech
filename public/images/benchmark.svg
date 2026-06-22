@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320">
+  <rect width="720" height="320" fill="#F5F5F7" rx="8"/>
+  <!-- 标题 -->
+  <text x="360" y="36" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#1D1D1F" font-weight="600">Lighthouse 性能评分</text>
+  <!-- 柱状图 -->
+  <!-- Performance -->
+  <rect x="80" y="260" width="80" height="28" rx="3" fill="#0071E3"/>
+  <rect x="80" y="60" width="80" height="200" rx="4" fill="#0071E3" opacity="0.15"/>
+  <rect x="80" y="60" width="80" height="196" rx="4" fill="#0071E3"/>
+  <text x="120" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#1D1D1F" font-weight="500">Performance</text>
+  <text x="120" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="16" fill="#0071E3" font-weight="700">98</text>
+  <!-- Accessibility -->
+  <rect x="200" y="260" width="80" height="28" rx="3" fill="#2d7844"/>
+  <rect x="200" y="40" width="80" height="220" rx="4" fill="#2d7844" opacity="0.15"/>
+  <rect x="200" y="60" width="80" height="200" rx="4" fill="#2d7844"/>
+  <text x="240" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#1D1D1F" font-weight="500">Accessibility</text>
+  <text x="240" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="16" fill="#2d7844" font-weight="700">100</text>
+  <!-- Best Practices -->
+  <rect x="320" y="260" width="80" height="28" rx="3" fill="#cc3a1a"/>
+  <rect x="320" y="84" width="80" height="176" rx="4" fill="#cc3a1a" opacity="0.15"/>
+  <rect x="320" y="84" width="80" height="176" rx="4" fill="#cc3a1a"/>
+  <text x="360" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#1D1D1F" font-weight="500">Best Practices</text>
+  <text x="360" y="76" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="16" fill="#cc3a1a" font-weight="700">90</text>
+  <!-- SEO -->
+  <rect x="440" y="260" width="80" height="28" rx="3" fill="#6E6E73"/>
+  <rect x="440" y="70" width="80" height="190" rx="4" fill="#6E6E73" opacity="0.15"/>
+  <rect x="440" y="80" width="80" height="180" rx="4" fill="#6E6E73"/>
+  <text x="480" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="#1D1D1F" font-weight="500">SEO</text>
+  <text x="480" y="72" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="16" fill="#6E6E73" font-weight="700">100</text>
+  <!-- 基线 -->
+  <line x1="60" y1="260" x2="540" y2="260" stroke="#E5E5EA" stroke-width="1"/>
+</svg>
