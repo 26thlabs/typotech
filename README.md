@@ -2,7 +2,7 @@
 
 排版驱动的技术博客模板——设计令牌控制全局样式、明暗主题平滑切换、MDX 组件混写。Fork → Vercel，十分钟上线。
 
-**demo**：![Typotech](https://typotech-beta.vercel.app/)
+**demo**：[Typotech](https://typotech-beta.vercel.app/)
 
 ## 技术栈
 
