@@ -216,7 +216,7 @@ export const components: Record<string, any> = {
       );
       return (
         <div
-          className="my-6 shiki-wrapper"
+          className="shiki-wrapper"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       );

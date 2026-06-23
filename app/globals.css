@@ -104,6 +104,8 @@ code span {
   font-size: 14px;
   line-height: 24px;
   font-weight: 400;
+  /* 隐藏滚动条，保留滚动能力 */
+  scrollbar-width: none;
 }
 @media (min-width: 640px) {
   .shiki-wrapper pre {
@@ -114,9 +116,12 @@ code span {
   }
 }
 
+.shiki-wrapper pre::-webkit-scrollbar {
+  display: none;
+}
+
 .shiki-wrapper pre code {
-  white-space: pre-wrap !important;
-  word-break: break-word;
+  white-space: pre !important;
 }
 
 /* -- Focus ring (可访问性) -- */
@@ -372,13 +377,12 @@ html.theme-ready *::after {
     line-height: 1.4;
     padding: 8pt 10pt;
     white-space: pre-wrap !important;
-    word-break: break-word;
     overflow-wrap: break-word;
   }
 
-  pre code {
+  .shiki-wrapper pre code {
     white-space: pre-wrap !important;
-    word-break: break-word;
+    overflow-wrap: break-word;
   }
 
   /* -- 行内代码 -- */
