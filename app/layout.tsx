@@ -98,7 +98,7 @@ export default function RootLayout({
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(e){var r=document.documentElement;if(e.matches){r.classList.add("dark");r.classList.remove("light")}else{r.classList.remove("dark");r.classList.add("light")}})}catch(e){}`,
+            __html: `try{window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(e){var r=document.documentElement;var t=e.matches?"dark":"light";var a=function(){if(t==="dark"){r.classList.add("dark");r.classList.remove("light")}else{r.classList.remove("dark");r.classList.add("light")}};if(document.startViewTransition){document.startViewTransition(function(){a()})}else{a()}})}catch(e){}`,
           }}
         />
       </head>
