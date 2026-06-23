@@ -17,7 +17,7 @@ export default async function Home() {
         loading="eager"
       />
 
-      {/* 站点简介 — scale.body: 18px / 32px */}
+      {/* 站点简介 */}
       <p className="landing">
         {site.intro}
       </p>
@@ -25,7 +25,7 @@ export default async function Home() {
       {/* 标签入口 */}
       {allTags.length > 0 && (
         <div>
-          <p className="text-[14px] leading-[24px] text-ink-tertiary font-sans font-medium tracking-[0.01em] mb-3">
+          <p className="text-[13px] leading-[20px] sm:text-[14px] sm:leading-[24px] text-ink-tertiary font-sans font-medium tracking-[0.01em] mb-3">
             #文章标签
           </p>
           <TagPills tags={allTags.map((t) => t.tag)} link />

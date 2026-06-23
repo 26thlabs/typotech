@@ -26,8 +26,8 @@ export default async function Page(props: {
   return (
     <div>
       <BackLink href="/" label="← Home" />
-      {/* scale.h3: 28px / 36px / semibold */}
-      <h1 className="font-sans text-[28px] leading-[36px] font-semibold text-ink mt-4 mb-8">
+      {/* h3 — mobile: 20px/28px, desktop: 28px/36px */}
+      <h1 className="font-sans text-[20px] leading-[28px] sm:text-[28px] sm:leading-[36px] font-semibold text-ink mt-4 mb-8">
         #{params.tag}
       </h1>
       <PostList articles={articles} />

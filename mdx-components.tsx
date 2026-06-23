@@ -31,22 +31,22 @@ function InlineMath({ children }: { children: string }) {
 }
 function BlockMath({ children }: { children: string }) {
   const html = katex.renderToString(children, { throwOnError: false, displayMode: true });
-  return <div className="my-8 overflow-x-auto text-center" dangerouslySetInnerHTML={{ __html: html }} />;
+  return <div className="my-6 sm:my-8 overflow-x-auto text-center" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 // ===== 自定义组件 =====
 // 排版缩放参考 design.yaml typography.scale
 export const components: Record<string, any> = {
 
-  // h1 — scale.h1: 48px / 56px / bold(700) / -0.03em
+  // h1 — mobile: 28px/36px, desktop: 48px/56px, bold(700), -0.03em
   h1: (props: any) => (
     <h1
-      className="font-sans text-[48px] leading-[56px] font-bold text-ink mt-0 mb-[24px] tracking-[-0.03em]"
+      className="font-sans text-[28px] leading-[36px] sm:text-[48px] sm:leading-[56px] font-bold text-ink mt-0 mb-[16px] sm:mb-[24px] tracking-[-0.03em]"
       {...props}
     />
   ),
 
-  // h2 — scale.h2: 36px / 44px / semibold(600) / -0.02em
+  // h2 — mobile: 24px/32px, desktop: 36px/44px, semibold(600), -0.02em
   h2: ({ children, ...props }: any) => {
     const id = textOf(children)
       .replace(/[^\w一-鿿]/g, "-")
@@ -57,7 +57,7 @@ export const components: Record<string, any> = {
     return (
       <h2
         id={id}
-        className="group relative font-sans text-[36px] leading-[44px] font-semibold text-ink mt-[48px] mb-[16px] tracking-[-0.02em] scroll-mt-24"
+        className="group relative font-sans text-[24px] leading-[32px] sm:text-[36px] sm:leading-[44px] font-semibold text-ink mt-[32px] sm:mt-[48px] mb-[12px] sm:mb-[16px] tracking-[-0.02em] scroll-mt-24"
         {...props}
       >
         <a
@@ -72,34 +72,30 @@ export const components: Record<string, any> = {
     );
   },
 
-  // h3 — scale.h3: 28px / 36px / semibold(600)
+  // h3 — mobile: 20px/28px, desktop: 28px/36px, semibold(600)
   h3: (props: any) => (
     <h3
-      className="font-sans text-[28px] leading-[36px] font-semibold text-ink mt-[32px] mb-[12px]"
+      className="font-sans text-[20px] leading-[28px] sm:text-[28px] sm:leading-[36px] font-semibold text-ink mt-[24px] sm:mt-[32px] mb-[8px] sm:mb-[12px]"
       {...props}
     />
   ),
 
-  // h4 — scale.h4: 22px / 30px / semibold(600)
+  // h4 — mobile: 18px/26px, desktop: 22px/30px, semibold(600)
   h4: (props: any) => (
     <h4
-      className="font-sans text-[22px] leading-[30px] font-semibold text-ink mt-[24px] mb-[8px]"
+      className="font-sans text-[18px] leading-[26px] sm:text-[22px] sm:leading-[30px] font-semibold text-ink mt-[20px] sm:mt-[24px] mb-[6px] sm:mb-[8px]"
       {...props}
     />
   ),
 
-  // h5 / h6 — 降级处理（design.yaml 未定义，继承 h4 比例缩小）
-  h5: (props: any) => (
-    <h5
-      className="font-sans text-[18px] leading-[28px] font-semibold text-ink mt-[20px] mb-[6px] opacity-80"
-      {...props}
-    />
-  ),
+  // h5 / h6 — 退化为正文加粗段落
+  h5: (props: any) => <p className="leading-[28px] sm:leading-[32px] font-semibold text-ink" {...props} />,
+  h6: (props: any) => <p className="leading-[28px] sm:leading-[32px] font-semibold text-ink" {...props} />,
 
-  // 段落 — scale.body: 18px / 32px, 段距由 prose-article 统一控制 (24px = paragraphSpacing)
+  // 段落 — mobile: 16px/28px, desktop: 18px/32px, 段距由 prose-article 统一控制
   p: (props: any) => (
     <p
-      className="leading-[32px]"
+      className="leading-[28px] sm:leading-[32px]"
       {...props}
     />
   ),
@@ -138,37 +134,37 @@ export const components: Record<string, any> = {
     <del className="line-through decoration-[1.5px] text-ink-tertiary" {...props} />
   ),
 
-  // 列表
+  // 列表 — mobile: my-4, desktop: my-5
   ul: (props: any) => (
     <ul
-      className="my-5 list-disc list-outside pl-5 marker:text-border space-y-1.5"
+      className="my-4 sm:my-5 list-disc list-outside pl-5 marker:text-border space-y-1.5"
       {...props}
     />
   ),
   ol: (props: any) => (
     <ol
-      className="my-5 list-decimal list-outside pl-5 marker:text-ink-tertiary space-y-1.5"
+      className="my-4 sm:my-5 list-decimal list-outside pl-5 marker:text-ink-tertiary space-y-1.5"
       {...props}
     />
   ),
   li: (props: any) => <li className="text-ink/80 pl-1" {...props} />,
 
-  // 引用 — scale.lead: 20px / 34px / regular(400)
+  // 引用 — mobile: 17px/28px, desktop: 20px/34px, regular(400)
   blockquote: (props: any) => (
     <blockquote
-      className="font-sans text-[20px] leading-[34px] font-normal text-ink-secondary my-[32px] pl-[1em] border-l-2 border-border"
+      className="font-sans text-[17px] leading-[28px] sm:text-[20px] sm:leading-[34px] font-normal text-ink-secondary my-[24px] sm:my-[32px] pl-[1em] border-l-2 border-border"
       {...props}
     />
   ),
 
-  // 分隔线
+  // 分隔线 — mobile: my-8, desktop: my-12
   hr: (props: any) => (
-    <hr className="my-12 border-border" {...props} />
+    <hr className="my-8 sm:my-12 border-border" {...props} />
   ),
 
   // 表格 — 响应式滚动容器 + 标准表格样式
   table: ({ children, ...rest }: any) => (
-    <div className="mt-8 mb-0 overflow-x-auto rounded-lg border border-border">
+    <div className="table-wrapper mt-6 sm:mt-8 mb-0 overflow-x-auto rounded-lg border border-border">
       <table className="min-w-full text-sm" {...rest}>
         {filterKids(children)}
       </table>
@@ -189,21 +185,21 @@ export const components: Record<string, any> = {
       {filterKids(children)}
     </tr>
   ),
-  // th — scale.caption: 14px / 24px, tracking: 0.01em
+  // th — mobile: 13px/20px, desktop: 14px/24px, tracking: 0.01em
   th: (props: any) => (
     <th
-      className="px-4 py-3 text-left font-sans text-[14px] leading-[24px] font-medium text-ink-secondary tracking-[0.01em] uppercase whitespace-nowrap"
+      className="px-3 sm:px-4 py-2 sm:py-3 text-left font-sans text-[13px] leading-[20px] sm:text-[14px] sm:leading-[24px] font-medium text-ink-secondary tracking-[0.01em] uppercase whitespace-nowrap"
       {...props}
     />
   ),
   td: (props: any) => (
     <td
-      className="px-4 py-3 align-top text-[16px] leading-[28px]"
+      className="px-3 sm:px-4 py-2 sm:py-3 align-top text-[14px] leading-[24px] sm:text-[16px] sm:leading-[28px]"
       {...props}
     />
   ),
 
-  // 代码块外层 — 透传（由 code 组件处理高亮）
+  // 代码块外层 — 剥离 MDX 默认的 <pre>，避免与 Shiki 输出的 <pre> 重复嵌套
   pre: (props: any) => <>{props.children}</>,
 
   // 代码 — 块级用 Shiki 服务端高亮，行内样式匹配 code.inline token
@@ -243,7 +239,7 @@ export const components: Record<string, any> = {
         <img
           src={src}
           alt={alt || ""}
-          className="my-8 rounded-lg w-full h-auto"
+          className="my-6 sm:my-8 rounded-lg w-full h-auto"
           loading="lazy"
           {...props}
         />
@@ -255,33 +251,33 @@ export const components: Record<string, any> = {
         alt={alt || ""}
         width={1200}
         height={630}
-        className="my-8 rounded-lg w-full h-auto"
+        className="my-6 sm:my-8 rounded-lg w-full h-auto"
         sizes="(max-width: 720px) 100vw, 720px"
         {...props}
       />
     );
   },
 
-  // <FigCaption> — 图注：居中、仅上边距，用于 <figure> 内
+  // <FigCaption> — mobile: 13px/20px, desktop: 14px/24px
   FigCaption: (props: any) => (
     <span
-      className="block mt-3 text-center font-sans text-[14px] leading-[24px] font-normal text-ink-tertiary tracking-[0.01em]"
+      className="block mt-3 text-center font-sans text-[13px] leading-[20px] sm:text-[14px] sm:leading-[24px] font-normal text-ink-tertiary tracking-[0.01em]"
       {...props}
     />
   ),
 
-  // <Caption> — 通用标注：数据来源、注释、表注（左对齐、上下边距）
+  // <Caption> — mobile: 13px/20px, desktop: 14px/24px
   Caption: (props: any) => (
     <span
-      className="block my-3 font-sans text-[14px] leading-[24px] font-normal text-ink-tertiary tracking-[0.01em]"
+      className="block my-3 font-sans text-[13px] leading-[20px] sm:text-[14px] sm:leading-[24px] font-normal text-ink-tertiary tracking-[0.01em]"
       {...props}
     />
   ),
 
-  // <Small> — scale.small: 16px / 28px, 次要内容 / 侧边注
+  // <Small> — mobile: 14px/24px, desktop: 16px/28px
   Small: (props: any) => (
     <small
-      className="block my-2 font-sans text-[16px] leading-[28px] font-normal text-ink-secondary"
+      className="block my-2 font-sans text-[14px] leading-[24px] sm:text-[16px] sm:leading-[28px] font-normal text-ink-secondary"
       {...props}
     />
   ),

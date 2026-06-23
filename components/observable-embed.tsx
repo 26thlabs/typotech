@@ -23,7 +23,7 @@ export function ObservableEmbed({
   const src = `https://observablehq.com/embed/${notebook}${cells ? `?cells=${cells}` : ""}`;
 
   return (
-    <figure className="my-8 not-prose">
+    <figure className="my-6 sm:my-8">
       <iframe
         src={src}
         title={`ObservableHQ: ${notebook}`}

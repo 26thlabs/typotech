@@ -62,13 +62,13 @@ export default async function Page(props: {
     <article>
       {/* 文章页头 — blockSpacing: 48px */}
       <header className="mb-12">
-        {/* scale.h1: 48px/56px, mobile: 36px/44px, bold(700), -0.03em */}
-        <h1 className="font-sans text-4xl leading-[44px] lg:text-[48px] lg:leading-[56px] font-bold text-ink tracking-[-0.03em] mb-4">
+        {/* h1 — mobile: 28px/36px, sm: 36px/44px, lg: 48px/56px */}
+        <h1 className="font-sans text-[28px] leading-[36px] sm:text-[36px] sm:leading-[44px] lg:text-[48px] lg:leading-[56px] font-bold text-ink tracking-[-0.03em] mb-4">
           {metadata.title}
         </h1>
 
-        {/* scale.caption: 14px / 24px, color.secondary */}
-        <div className="text-ink-secondary font-sans font-medium text-[14px] leading-[24px] tracking-[0.01em]">
+        {/* caption — mobile: 13px/20px, desktop: 14px/24px */}
+        <div className="text-ink-secondary font-sans font-medium text-[13px] leading-[20px] sm:text-[14px] sm:leading-[24px] tracking-[0.01em]">
           {[
             metadata.author && `@${metadata.author}`,
             displayDate,
@@ -84,7 +84,7 @@ export default async function Page(props: {
       </header>
 
       {/* 文章正文 */}
-      <div className="prose max-w-none prose-article">
+      <div className="max-w-none prose-article">
         <Suspense fallback={<div className="h-64 flex items-center justify-center text-ink-tertiary">加载中…</div>}>
           <MDXContent />
         </Suspense>

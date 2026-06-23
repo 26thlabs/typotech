@@ -12,8 +12,8 @@ interface BackLinkProps {
 export function BackLink({ href, label = "← Back" }: BackLinkProps) {
   const router = useRouter();
 
-  // scale.caption: 14px / 24px, color.secondary
-  const cls = "text-[14px] leading-[24px] text-ink-secondary hover:text-accent transition-colors";
+  // caption — mobile: 13px/22px, desktop: 14px/24px
+  const cls = "text-[13px] leading-[22px] sm:text-[14px] sm:leading-[24px] text-ink-secondary hover:text-accent transition-colors";
 
   if (href) {
     return (
