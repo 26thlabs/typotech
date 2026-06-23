@@ -1,6 +1,6 @@
 # Typotech
 
-排版驱动的技术博客模板——设计令牌控制全局样式、明暗主题平滑切换、MDX 组件混写。Fork → Vercel，十分钟上线。
+排版驱动的技术博客模板——设计令牌控制全局样式、明暗主题自动跟随系统、MDX 组件混写。Fork → Vercel，十分钟上线。
 
 **demo**：[Typotech](https://typotech-beta.vercel.app/)
 
@@ -9,8 +9,8 @@
 - **Next.js 16** (App Router) + **React 19** — RSC + SSG，文章页零客户端 JS
 - **MDX** (RS, GFM) — ESM metadata，Markdown + React 组件混写
 - **Tailwind CSS v4** — `@theme inline` 注入设计令牌
-- **Shiki** — CSS Variables 主题，明暗自适应
-- **KaTeX** — 数学公式
+- **Shiki** — CSS Variables 主题，代码块隐藏滚动条保留原始格式
+- **KaTeX** (react-katex) — 数学公式
 - **ObservableHQ** — 交互式可视化嵌入
 
 ## 开始
@@ -41,7 +41,6 @@ typotech/
 │   ├── footer.tsx               # 页脚
 │   ├── post-list.tsx            # 文章列表
 │   ├── tag-pills.tsx            # 标签药丸
-│   ├── theme-toggle.tsx         # 明暗主题切换
 │   └── observable-embed.tsx     # ObservableHQ 嵌入
 ├── content/                     # 文章 MDX
 ├── lib/

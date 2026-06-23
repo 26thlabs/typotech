@@ -2,7 +2,7 @@ import type { MDXComponents } from "mdx/types";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import katex from "katex";
+import { InlineMath as KaTeXInline, BlockMath as KaTeXBlock } from "react-katex";
 import { ObservableEmbed } from "@/components/observable-embed";
 import { getHighlighter } from "@/lib/highlighter";
 
@@ -26,12 +26,14 @@ function textOf(c: React.ReactNode): string {
 
 // ===== 公式 =====
 function InlineMath({ children }: { children: string }) {
-  const html = katex.renderToString(children, { throwOnError: false, displayMode: false });
-  return <span className="inline-katex" dangerouslySetInnerHTML={{ __html: html }} />;
+  return <KaTeXInline math={children} />;
 }
 function BlockMath({ children }: { children: string }) {
-  const html = katex.renderToString(children, { throwOnError: false, displayMode: true });
-  return <div className="my-6 sm:my-8 overflow-x-auto text-center" dangerouslySetInnerHTML={{ __html: html }} />;
+  return (
+    <div className="my-6 sm:my-8 overflow-x-auto text-center">
+      <KaTeXBlock math={children} />
+    </div>
+  );
 }
 
 // ===== 自定义组件 =====

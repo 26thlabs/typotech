@@ -93,7 +93,12 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{ __html: themeCSS() }} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem("theme");if(!t)try{t=window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"}catch(e){t="light"}document.documentElement.classList.add(t);document.documentElement.classList.add("theme-ready")}catch(e){}`,
+            __html: `try{var t=window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";document.documentElement.classList.add(t);document.documentElement.classList.add("theme-ready")}catch(e){}`,
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(e){var r=document.documentElement;if(e.matches){r.classList.add("dark");r.classList.remove("light")}else{r.classList.remove("dark");r.classList.add("light")}})}catch(e){}`,
           }}
         />
       </head>

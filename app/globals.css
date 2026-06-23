@@ -86,10 +86,6 @@ html {
 
 /* -- Shiki 代码高亮 -- */
 
-code span {
-  transition: color 0.2s;
-}
-
 .shiki-wrapper { margin: 20px 0; }
 @media (min-width: 640px) {
   .shiki-wrapper { margin: 24px 0; }
@@ -267,7 +263,7 @@ html.theme-ready *::after {
   }
 
   /* -- 隐藏导航 / 页脚 / 装饰 -- */
-  header, footer, nav, .theme-toggle {
+  header, footer, nav {
     display: none !important;
   }
 

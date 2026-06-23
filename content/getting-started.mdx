@@ -8,7 +8,7 @@ export const metadata = {
 
 ## 项目介绍
 
-Typotech 是一套**排版驱动的技术博客模板**——设计令牌控制全局样式、明暗主题平滑切换、MDX 组件混写、零客户端 JS 的文章页。Fork → Vercel，十分钟上线。
+Typotech 是一套**排版驱动的技术博客模板**——设计令牌控制全局样式、明暗主题自动跟随系统、MDX 组件混写、零客户端 JS 的文章页。Fork → Vercel，十分钟上线。
 
 ### 快速开始
 
@@ -30,11 +30,10 @@ typotech/
 │   ├── globals.css              # 设计令牌 + 排版 + 暗色模式
 │   └── page.tsx                 # 首页 Banner + 简介
 ├── components/
-│   ├── header.tsx               # 导航栏（Logo + Nav + 主题切换）
+│   ├── header.tsx               # 导航栏（Logo + Nav）
 │   ├── footer.tsx               # 页脚（链接 + 版权）
 │   ├── post-list.tsx            # 文章列表（按年份分组）
 │   ├── tag-pills.tsx            # 标签药丸
-│   ├── theme-toggle.tsx         # 明暗主题切换按钮
 │   └── observable-embed.tsx     # ObservableHQ 交互式图表嵌入
 ├── content/                     # 文章 MDX（从此处写文章）
 ├── lib/
@@ -52,8 +51,8 @@ typotech/
 | 框架 | Next.js 16 (App Router) | RSC + SSG，文章页零客户端 JS |
 | 样式 | Tailwind CSS v4 | `@theme inline` 注入设计令牌 |
 | 内容 | MDX (RS) | ESM metadata，GFM 支持 |
-| 代码高亮 | Shiki | CSS Variables 主题，明暗自适应 |
-| 公式 | KaTeX | 行内 + 块级 |
+| 代码高亮 | Shiki | CSS Variables 主题，隐藏滚动条保留原始格式 |
+| 公式 | KaTeX (react-katex) | 行内 + 块级 |
 | 可视化 | ObservableHQ | 交互式图表嵌入 |
 | 字体 | Inter / Fira Code / Noto Sans SC / DM Serif Display | next/font/google 自托管 |
 
@@ -146,7 +145,7 @@ function greet(name: string): string {
 ```
 ````
 
-渲染效果——Shiki 服务端高亮，明暗主题自动适配：
+渲染效果——Shiki 服务端高亮，代码不换行、隐藏滚动条、横向滑动查看：
 
 ```typescript
 function greet(name: string): string {
@@ -326,4 +325,4 @@ export const nav = { /* 导航栏 */ };
 
 ---
 
-*更多细节请参考项目根目录的`mdx-components.tsx`。整个项目不超过 20 个源文件，直接看源码比任何文档都准确。*
+*更多细节请参考项目根目录的 `mdx-components.tsx`。整个项目不超过 20 个源文件，直接看源码比任何文档都准确。*
