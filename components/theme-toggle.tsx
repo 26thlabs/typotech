@@ -18,11 +18,6 @@ function getStoredTheme(): Theme | null {
   return null;
 }
 
-function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
-  return document.documentElement.classList.contains("dark") ? "dark" : "light";
-}
-
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
   if (theme === "dark") {
@@ -35,24 +30,35 @@ function applyTheme(theme: Theme) {
 }
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme);
-  const [systemTheme, setSystemTheme] = useState<Theme>(getInitialTheme);
+  const [theme, setTheme] = useState<Theme>("light");
 
+  // Sync with stored / system on mount
   useEffect(() => {
     const stored = getStoredTheme();
     const sys = getSystemTheme();
-    setSystemTheme(sys);
-    // 每次页面加载时跟随系统
     const t = stored ?? sys;
     setTheme(t);
     applyTheme(t);
     localStorage.setItem("theme", t);
   }, []);
 
+  // Follow system theme changes (unless user set a stored preference)
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = (e: MediaQueryListEvent) => {
+      if (getStoredTheme()) return;
+      const t = e.matches ? "dark" : "light";
+      applyTheme(t);
+      setTheme(t);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   const toggle = () => {
-    // 系统为深色 → 不做任何切换（没有动画 = 没有闪烁）
-    if (systemTheme === "dark") return;
-    // 系统为浅色 → 支持浅↔深切
+    // 系统深色 → 不切换（无动画 = 无闪烁）
+    if (getSystemTheme() === "dark") return;
+    // 系统浅色 → 浅↔深切
     const next = theme === "dark" ? "light" : "dark";
     applyTheme(next);
     localStorage.setItem("theme", next);
