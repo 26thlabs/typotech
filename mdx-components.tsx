@@ -2,7 +2,8 @@ import type { MDXComponents } from "mdx/types";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { InlineMath as KaTeXInline, BlockMath as KaTeXBlock } from "react-katex";
+// @ts-ignore — react-katex is pure JS, no type declarations
+import { InlineMath, BlockMath as KaTeXBlock } from "react-katex";
 import { ObservableEmbed } from "@/components/observable-embed";
 import { getHighlighter } from "@/lib/highlighter";
 
@@ -25,9 +26,6 @@ function textOf(c: React.ReactNode): string {
 }
 
 // ===== 公式 =====
-function InlineMath({ children }: { children: string }) {
-  return <KaTeXInline math={children} />;
-}
 function BlockMath({ children }: { children: string }) {
   return (
     <div className="my-6 sm:my-8 overflow-x-auto text-center">

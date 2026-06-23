@@ -10,7 +10,7 @@
 - **MDX** (RS, GFM) — ESM metadata，Markdown + React 组件混写
 - **Tailwind CSS v4** — `@theme inline` 注入设计令牌
 - **Shiki** — CSS Variables 主题，代码块隐藏滚动条保留原始格式
-- **KaTeX** (react-katex) — 数学公式
+- **KaTeX** — 数学公式
 - **ObservableHQ** — 交互式可视化嵌入
 
 ## 开始

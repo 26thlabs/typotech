@@ -4,7 +4,7 @@ import { site, nav } from "@/lib/site";
 export function Header() {
   return (
     <header className="pt-6 sm:pt-8 lg:pt-12 pb-3 sm:pb-4 lg:pb-6 max-w-[720px] mx-auto w-full px-4 sm:px-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+      <div className="flex items-center justify-between">
 
         {/* Logo — mobile: 18px, desktop: 20px */}
         <Link
