@@ -192,15 +192,10 @@ export const components: MDXComponents = {
     if (isBlock) {
       const lang = match![1] as string;
       const code = (props.children as string).trimEnd();
+      const highlighter = React.use(getHighlighter());
+      let html: string;
       try {
-        const highlighter = React.use(getHighlighter());
-        const html = highlighter.codeToHtml(code, { lang, theme: "css-variables" });
-        return (
-          <div
-            className="shiki-wrapper"
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-        );
+        html = highlighter.codeToHtml(code, { lang, theme: "css-variables" });
       } catch {
         // 不支持的语言或 Shiki 内部错误 → 降级为无高亮代码块
         return (
@@ -209,6 +204,12 @@ export const components: MDXComponents = {
           </div>
         );
       }
+      return (
+        <div
+          className="shiki-wrapper"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      );
     }
 
     // inline code — code.inline: 0.9em / weight: medium / background enabled
