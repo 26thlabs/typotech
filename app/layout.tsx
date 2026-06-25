@@ -71,6 +71,8 @@ function themeCSS() {
   --color-paper: ${light.paper};
   --color-subtle: ${light.subtle};
   --color-border: ${light.border};
+  --shiki-foreground: ${s.text};
+  --shiki-background: transparent;
   --shiki-color-text: ${s.text};
   --shiki-color-background: transparent;
   --shiki-token-constant: ${s.constant};

@@ -165,6 +165,8 @@ html {
   --color-subtle: #1C1C1E;
   --color-border: #38383A;
 
+  --shiki-foreground: #F5F5F7;
+  --shiki-background: transparent;
   --shiki-color-text: #F5F5F7;
   --shiki-color-background: transparent;
   --shiki-token-constant: #2997FF;
