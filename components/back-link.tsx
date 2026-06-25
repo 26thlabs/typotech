@@ -9,26 +9,18 @@ interface BackLinkProps {
   label?: string;
 }
 
-const CLS = "text-[13px] leading-[22px] sm:text-[14px] sm:leading-[24px] text-ink-secondary hover:text-accent transition-colors";
+const LINK_CLASS =
+  "caption hover:text-accent transition-colors";
 
-/** 静态返回链接 — 不订阅 router */
-function StaticBackLink({ href, label }: { href: string; label: string }) {
-  return (
-    <Link href={href} className={CLS}>
-      {label}
-    </Link>
-  );
-}
-
-/** 动态返回按钮 — 仅在无 href 时订阅 router */
-function DynamicBackLink({ label }: { label: string }) {
+/** 动态返回按钮 — 仅在无 href 时渲染，useRouter 也仅在此路径被调用 */
+function BackButton({ label }: { label: string }) {
   const router = useRouter();
 
   return (
     <button
       type="button"
       onClick={() => router.back()}
-      className={CLS}
+      className={LINK_CLASS}
       aria-label="返回上一页"
     >
       {label}
@@ -38,7 +30,11 @@ function DynamicBackLink({ label }: { label: string }) {
 
 export function BackLink({ href, label = "← Back" }: BackLinkProps) {
   if (href) {
-    return <StaticBackLink href={href} label={label} />;
+    return (
+      <Link href={href} className={LINK_CLASS}>
+        {label}
+      </Link>
+    );
   }
-  return <DynamicBackLink label={label} />;
+  return <BackButton label={label} />;
 }

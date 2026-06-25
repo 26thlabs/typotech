@@ -135,6 +135,22 @@ html {
   color: var(--color-ink);
 }
 
+/* -- Caption typography -- */
+
+@utility caption {
+  font-size: 13px;
+  line-height: 22px;
+  letter-spacing: 0.01em;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--color-ink-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 14px;
+    line-height: 24px;
+  }
+}
+
 /* ==================================================
    Theme: Dark (JS 注入 .dark class)
    ================================================== */
@@ -242,6 +258,10 @@ html.theme-ready *::after {
   html.theme-ready *::after {
     transition-duration: 0s !important;
   }
+
+  .theme-toggle-icon {
+    animation: none;
+  }
 }
 
 /* ==================================================
@@ -256,12 +276,6 @@ html.theme-ready *::after {
 .theme-toggle-icon {
   display: inline-flex;
   animation: theme-icon-in 0.3s ease;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .theme-toggle-icon {
-    animation: none;
-  }
 }
 
 /* ==================================================

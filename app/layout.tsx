@@ -5,6 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { site, theme } from "@/lib/site";
+import { THEME_KEY, THEME_ATTR } from "@/lib/urls";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -84,6 +85,9 @@ function themeCSS() {
 }`;
 }
 
+/** themeCSS() result hoisted to module level — all theme values are `as const` so this never changes */
+const THEME_CSS = themeCSS();
+
 export default function RootLayout({
   children,
 }: { children: React.ReactNode }) {
@@ -94,10 +98,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <style dangerouslySetInnerHTML={{ __html: themeCSS() }} />
+        <style dangerouslySetInnerHTML={{ __html: THEME_CSS }} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var h=document.documentElement;var s;try{s=localStorage.getItem('theme')}catch(e){s=null}s=s||'system';h.setAttribute('data-theme',s);var d;try{d=(s==='dark')?true:(s==='light')?false:window.matchMedia('(prefers-color-scheme:dark)').matches}catch(e){d=false}h.classList.add(d?'dark':'light');h.classList.add('theme-ready');try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){try{if(h.getAttribute('data-theme')!=='system')return;var a=e.matches?'dark':'light',r=e.matches?'light':'dark';function x(){h.classList.add(a);h.classList.remove(r)}if(document.startViewTransition){document.startViewTransition(function(){x()})}else{x()}}catch(e){}})}catch(e){}})();`,
+            __html: `(function(){var h=document.documentElement;var s;try{s=localStorage.getItem('${THEME_KEY}')}catch(e){s=null}s=s||'system';h.setAttribute('${THEME_ATTR}',s);var d;try{d=(s==='dark')?true:(s==='light')?false:window.matchMedia('(prefers-color-scheme:dark)').matches}catch(e){d=false}h.classList.add(d?'dark':'light');h.classList.add('theme-ready');try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){try{if(h.getAttribute('${THEME_ATTR}')!=='system')return;var a=e.matches?'dark':'light',r=e.matches?'light':'dark';function x(){h.classList.add(a);h.classList.remove(r)}if(document.startViewTransition){document.startViewTransition(function(){x()})}else{x()}}catch(e){}})}catch(e){}})();`,
           }}
         />
       </head>

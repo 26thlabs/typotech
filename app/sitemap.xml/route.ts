@@ -1,5 +1,7 @@
 import { getAllArticles } from "@/lib/articles";
-import { site } from "@/lib/site";
+import { formatDisplayDate } from "@/lib/dates";
+import { getArticleUrl } from "@/lib/urls";
+import { site, CACHE_CONTROL } from "@/lib/site";
 
 export async function GET() {
   const articles = await getAllArticles();
@@ -16,8 +18,8 @@ export async function GET() {
   const articlePages = articles.map(
     (a) =>
       `  <url>
-    <loc>${site.url}/blog/${a.slug}</loc>
-    <lastmod>${a.date.replaceAll(".", "-")}</lastmod>
+    <loc>${site.url}${getArticleUrl(a.slug)}</loc>
+    <lastmod>${formatDisplayDate(a.date)}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>`
@@ -32,7 +34,7 @@ ${articlePages.join("\n")}
   return new Response(sitemap, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "s-maxage=3600, stale-while-revalidate",
+      "Cache-Control": CACHE_CONTROL,
     },
   });
 }

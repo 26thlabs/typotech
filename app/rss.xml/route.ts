@@ -1,8 +1,10 @@
 import { getAllArticles } from "@/lib/articles";
-import { site } from "@/lib/site";
+import { formatDisplayDate } from "@/lib/dates";
+import { getArticleUrl } from "@/lib/urls";
+import { site, CACHE_CONTROL } from "@/lib/site";
 
 /** XML 文本内容转义 */
-function esc(s: string) {
+function escapeXml(s: string) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
@@ -14,12 +16,12 @@ export async function GET() {
       (a) =>
         `    <item>
       <title><![CDATA[${a.title}]]></title>
-      <link>${site.url}/blog/${a.slug}</link>
-      <guid isPermaLink="true">${site.url}/blog/${a.slug}</guid>
+      <link>${site.url}${getArticleUrl(a.slug)}</link>
+      <guid isPermaLink="true">${site.url}${getArticleUrl(a.slug)}</guid>
       <description><![CDATA[${a.description || a.title}]]></description>
-      <pubDate>${new Date(a.date.replaceAll(".", "-")).toUTCString()}</pubDate>${
+      <pubDate>${new Date(formatDisplayDate(a.date)).toUTCString()}</pubDate>${
         a.tags
-          ? "\n" + a.tags.map((t) => `      <category>${esc(t)}</category>`).join("\n")
+          ? "\n" + a.tags.map((t) => `      <category>${escapeXml(t)}</category>`).join("\n")
           : ""
       }
     </item>`
@@ -42,7 +44,7 @@ ${items}
   return new Response(rss, {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "s-maxage=3600, stale-while-revalidate",
+      "Cache-Control": CACHE_CONTROL,
     },
   });
 }

@@ -76,6 +76,9 @@ export const footerLinks = [
   { label: "RSS", href: "/rss.xml" },
 ] as const;
 
+/** 共享响应头 Cache-Control 值 */
+export const CACHE_CONTROL = "s-maxage=3600, stale-while-revalidate" as const;
+
 /** 导航 */
 export const nav = {
   main: [{ label: "Blog", href: "/blog" }],

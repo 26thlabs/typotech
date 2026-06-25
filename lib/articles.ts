@@ -1,13 +1,14 @@
 import { cache } from "react";
 import { promises as fs } from "fs";
 import path from "path";
+import { isPublished } from "./dates";
 
 export interface ArticleMeta {
-  slug: string;
-  title: string;
-  date: string;
-  year: string;
-  sort: number;
+  readonly slug: string;
+  readonly title: string;
+  readonly date: string;
+  readonly year: string;
+  readonly sort: number;
   author?: string;
   description?: string;
   tags?: string[];
@@ -42,7 +43,7 @@ export const getAllArticles = cache(async (): Promise<ArticleMeta[]> => {
   for (const file of files) {
     if (!file.endsWith(".mdx")) continue;
 
-    let mod: any;
+    let mod: { default: unknown; metadata: Record<string, unknown> };
     try {
       mod = await import(`@/content/${file}`);
     } catch (e) {
@@ -50,7 +51,7 @@ export const getAllArticles = cache(async (): Promise<ArticleMeta[]> => {
       continue;
     }
 
-    if (!mod.metadata || mod.metadata.draft) continue;
+    if (!isPublished(mod.metadata)) continue;
 
     // 校验必填字段
     const title: unknown = mod.metadata.title;
@@ -101,8 +102,8 @@ export function readingTime(text: string): number {
 export async function getAllTags(): Promise<{ tag: string; count: number }[]> {
   const articles = await getAllArticles();
   const map = new Map<string, number>();
-  for (const a of articles) {
-    for (const t of a.tags || []) {
+  for (const article of articles) {
+    for (const t of article.tags || []) {
       map.set(t, (map.get(t) || 0) + 1);
     }
   }
