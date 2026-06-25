@@ -8,13 +8,13 @@
    ================================================== */
 
 @theme inline {
-  --color-ink: var(--color-ink);
-  --color-ink-secondary: var(--color-ink-secondary);
-  --color-ink-tertiary: var(--color-ink-tertiary);
-  --color-accent: var(--color-accent);
-  --color-paper: var(--color-paper);
-  --color-subtle: var(--color-subtle);
-  --color-border: var(--color-border);
+  --color-ink: var(--color-ink, #1D1D1F);
+  --color-ink-secondary: var(--color-ink-secondary, #6E6E73);
+  --color-ink-tertiary: var(--color-ink-tertiary, #86868B);
+  --color-accent: var(--color-accent, #0071E3);
+  --color-paper: var(--color-paper, #FFFFFF);
+  --color-subtle: var(--color-subtle, #F5F5F7);
+  --color-border: var(--color-border, #E5E5EA);
   --font-sans: var(--font-inter), "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-fira-code), "Noto Sans Mono", "Consolas", monospace;
   --font-article: var(--font-inter), "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -140,6 +140,7 @@ html {
    ================================================== */
 
 :root.dark {
+  color-scheme: dark;
   --color-ink: #F5F5F7;
   --color-ink-secondary: #A1A1A6;
   --color-ink-tertiary: #86868B;
@@ -179,7 +180,8 @@ html {
    ================================================== */
 
 @media (prefers-color-scheme: dark) {
-  :root:not(.light) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
     --color-ink: #F5F5F7;
     --color-ink-secondary: #A1A1A6;
     --color-ink-tertiary: #86868B;
@@ -201,12 +203,12 @@ html {
     --shiki-token-link: #2997FF;
   }
 
-  :root:not(.light) .shiki-wrapper pre {
+  :root:not([data-theme]) .shiki-wrapper pre {
     background: #1C1C1E;
     border-color: #38383A;
   }
 
-  :root:not(.light) ::selection {
+  :root:not([data-theme]) ::selection {
     background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
   }
 }
@@ -239,6 +241,26 @@ html.theme-ready *::after {
   html.theme-ready *::before,
   html.theme-ready *::after {
     transition-duration: 0s !important;
+  }
+}
+
+/* ==================================================
+   Theme Toggle Icon
+   ================================================== */
+
+@keyframes theme-icon-in {
+  0% { opacity: 0; transform: scale(0.6) rotate(-20deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+.theme-toggle-icon {
+  display: inline-flex;
+  animation: theme-icon-in 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-icon {
+    animation: none;
   }
 }
 
@@ -425,6 +447,16 @@ html.theme-ready *::after {
 
   /* -- 列表 -- */
   li { break-inside: avoid; }
+
+  /* -- 主题切换按钮 -- */
+  .theme-toggle-icon { display: none !important; }
+
+  /* -- KaTeX 数学公式 — 保留渲染所需的边框和背景 -- */
+  .katex *,
+  .katex-html * {
+    background: revert !important;
+    border-color: revert !important;
+  }
 }
 
 /* ==================================================

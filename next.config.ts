@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
     mdxRs: {
       mdxType: "gfm",
     },
-    turbopackFileSystemCacheForDev: true,
   },
   // 外部图片走原生 <img>（见 mdx-components.tsx img 组件），无需 remotePatterns
 

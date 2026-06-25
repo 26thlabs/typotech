@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site, nav } from "@/lib/site";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   return (
@@ -14,21 +15,24 @@ export function Header() {
           {site.name}
         </Link>
 
-        {/* 导航 */}
-        <nav
-          aria-label="主导航"
-          className="flex flex-wrap gap-3 sm:gap-6 text-[15px] leading-[24px] sm:text-[16px] sm:leading-[28px] font-sans font-medium text-ink-secondary"
-        >
-          {nav.main.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="hover:text-accent transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        {/* 导航 + 主题切换 */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <nav
+            aria-label="主导航"
+            className="flex flex-wrap gap-3 sm:gap-6 text-[15px] leading-[24px] sm:text-[16px] sm:leading-[28px] font-sans font-medium text-ink-secondary"
+          >
+            {(nav.main ?? []).map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="hover:text-accent transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <ThemeToggle />
+        </div>
 
       </div>
     </header>

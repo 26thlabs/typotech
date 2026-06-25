@@ -2,6 +2,7 @@
   "name": "Typotech",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@9.15.4",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,11 +10,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^16.2.9",
-    "@types/mdx": "^2.0.14",
-    "katex": "^0.17.0",
+    "katex": "^0.16.9",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",
@@ -29,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8"
   }
 }

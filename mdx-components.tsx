@@ -88,9 +88,9 @@ export const components: Record<string, any> = {
     />
   ),
 
-  // h5 / h6 — 退化为正文加粗段落
-  h5: (props: any) => <p className="leading-[28px] sm:leading-[32px] font-semibold text-ink" {...props} />,
-  h6: (props: any) => <p className="leading-[28px] sm:leading-[32px] font-semibold text-ink" {...props} />,
+  // h5 / h6 — 保持语义化标题元素，退化为正文加粗样式
+  h5: (props: any) => <h5 className="leading-[28px] sm:leading-[32px] font-semibold text-ink" {...props} />,
+  h6: (props: any) => <h6 className="leading-[28px] sm:leading-[32px] font-semibold text-ink" {...props} />,
 
   // 段落 — mobile: 16px/28px, desktop: 18px/32px, 段距由 prose-article 统一控制
   p: (props: any) => (
@@ -188,6 +188,7 @@ export const components: Record<string, any> = {
   // th — mobile: 13px/20px, desktop: 14px/24px, tracking: 0.01em
   th: (props: any) => (
     <th
+      scope="col"
       className="px-3 sm:px-4 py-2 sm:py-3 text-left font-sans text-[13px] leading-[20px] sm:text-[14px] sm:leading-[24px] font-medium text-ink-secondary tracking-[0.01em] uppercase whitespace-nowrap"
       {...props}
     />
@@ -209,24 +210,32 @@ export const components: Record<string, any> = {
     const isBlock = match && typeof props.children === "string";
 
     if (isBlock) {
-      const highlighter = React.use(getHighlighter());
-      const html = highlighter.codeToHtml(
-        (props.children as string).trimEnd(),
-        { lang: match![1], theme: "css-variables" }
-      );
-      return (
-        <div
-          className="shiki-wrapper"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-      );
+      const lang = match![1];
+      const code = (props.children as string).trimEnd();
+      try {
+        const highlighter = React.use(getHighlighter());
+        const html = highlighter.codeToHtml(code, { lang, theme: "css-variables" });
+        return (
+          <div
+            className="shiki-wrapper"
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
+        );
+      } catch {
+        // 不支持的语言或 Shiki 内部错误 → 降级为无高亮代码块
+        return (
+          <div className="shiki-wrapper">
+            <pre><code>{code}</code></pre>
+          </div>
+        );
+      }
     }
 
     // inline code — code.inline: 0.9em / weight: medium / background enabled
     return (
       <code
-        className="inline rounded bg-subtle px-1.5 py-0.5 text-[0.9em] font-medium text-ink font-mono break-words"
         {...props}
+        className="inline rounded bg-subtle px-1.5 py-0.5 text-[0.9em] font-medium text-ink font-mono break-words"
       />
     );
   },
@@ -246,15 +255,16 @@ export const components: Record<string, any> = {
       );
     }
     return (
-      <Image
-        src={`/images/${src}`}
-        alt={alt || ""}
-        width={1200}
-        height={630}
-        className="my-6 sm:my-8 rounded-lg w-full h-auto"
-        sizes="(max-width: 720px) 100vw, 720px"
-        {...props}
-      />
+      <span className="relative block w-full my-6 sm:my-8" style={{ aspectRatio: "16/9" }}>
+        <Image
+          src={`/images/${src}`}
+          alt={alt || ""}
+          fill
+          className="rounded-lg object-contain"
+          sizes="(max-width: 720px) 100vw, 720px"
+          {...props}
+        />
+      </span>
     );
   },
 

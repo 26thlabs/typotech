@@ -15,28 +15,71 @@ export interface ArticleMeta {
 
 const contentDir = path.join(process.cwd(), "content");
 
+/** 校验日期格式 YYYY.MM.DD，返回 sort key；不合法则返回 null */
+function parseDate(raw: unknown): { year: string; sort: number } | null {
+  if (typeof raw !== "string") return null;
+  const m = raw.match(/^(\d{4})\.(\d{2})\.(\d{2})$/);
+  if (!m) return null;
+  const [, y, mo, d] = m;
+  return {
+    year: y!,
+    sort: Number(y! + mo! + d!),
+  };
+}
+
 /** 扫描 content/ 下所有 .mdx 文章，返回排序后的元数据列表 */
 export const getAllArticles = cache(async (): Promise<ArticleMeta[]> => {
-  const files = await fs.readdir(contentDir);
+  let files: string[];
+  try {
+    files = await fs.readdir(contentDir);
+  } catch {
+    // content/ 目录不存在或不可读 → 返回空列表
+    return [];
+  }
+
   const articles: ArticleMeta[] = [];
 
   for (const file of files) {
     if (!file.endsWith(".mdx")) continue;
-    const mod = await import(`@/content/${file}`);
+
+    let mod: any;
+    try {
+      mod = await import(`@/content/${file}`);
+    } catch (e) {
+      console.error(`[articles] failed to import ${file}:`, e);
+      continue;
+    }
+
     if (!mod.metadata || mod.metadata.draft) continue;
 
-    if (!mod.metadata.date) continue; // 无日期 = 不可发布
-    const date = mod.metadata.date;
+    // 校验必填字段
+    const title: unknown = mod.metadata.title;
+    if (!title || typeof title !== "string") {
+      console.warn(`[articles] skipping ${file}: missing or invalid title`);
+      continue;
+    }
+
+    const rawDate: unknown = mod.metadata.date;
+    const parsed = parseDate(rawDate);
+    if (!parsed) {
+      console.warn(`[articles] skipping ${file}: missing or invalid date (expected YYYY.MM.DD, got "${String(rawDate)}")`);
+      continue;
+    }
+    const date = rawDate as string;
+
+    // 过滤非字符串标签
+    const rawTags: unknown[] = Array.isArray(mod.metadata.tags) ? mod.metadata.tags : [];
+    const tags = rawTags.filter((t): t is string => typeof t === "string");
 
     articles.push({
       slug: file.replace(/\.mdx$/, ""),
-      title: mod.metadata.title,
+      title,
       date,
-      year: date.split(".")[0],
-      sort: Number(date.replace(/\./g, "")),
-      author: mod.metadata.author,
-      description: mod.metadata.description,
-      tags: mod.metadata.tags,
+      year: parsed.year,
+      sort: parsed.sort,
+      author: typeof mod.metadata.author === "string" ? mod.metadata.author : undefined,
+      description: typeof mod.metadata.description === "string" ? mod.metadata.description : undefined,
+      tags,
     });
   }
 
@@ -67,4 +110,3 @@ export async function getAllTags(): Promise<{ tag: string; count: number }[]> {
     .map(([tag, count]) => ({ tag, count }))
     .sort((a, b) => b.count - a.count);
 }
-

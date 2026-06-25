@@ -30,6 +30,9 @@ export function ObservableEmbed({
         className={`w-full border border-border rounded-lg bg-paper ${className || ""}`}
         style={{ height }}
         loading="lazy"
+        sandbox="allow-scripts allow-same-origin"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allow="none"
       />
     </figure>
   );

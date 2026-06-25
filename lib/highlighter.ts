@@ -33,6 +33,10 @@ export function getHighlighter() {
     highlighterPromise = createHighlighter({
       themes: [theme],
       langs: LANGS,
+    }).catch((err) => {
+      // 不缓存 rejection — 下次调用重试（处理 WASM 加载瞬间失败等瞬态错误）
+      highlighterPromise = null;
+      throw err;
     });
   }
   return highlighterPromise;

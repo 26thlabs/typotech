@@ -6,7 +6,7 @@ export default async function Home() {
   const allTags = await getAllTags();
 
   return (
-    <div className="flex-grow flex flex-col justify-center gap-8">
+    <div className="flex flex-col gap-6 sm:gap-8">
       {/* Banner — width/height 预设宽高比，避免图片加载时文字抖动 */}
       <img
         src={site.banner}

@@ -17,7 +17,13 @@ export const site = {
   banner: "/images/banner.svg",
 } as const;
 
-/** 主题色 (design.yaml §typography.color) */
+/** 主题色 (design.yaml §typography.color)
+ *
+ * ⚠️ theme.light 值由 layout.tsx themeCSS() 注入为内联 <style>，
+ * 作为 :root 默认 CSS 变量。theme.dark 的实际生效值硬编码在
+ * app/globals.css :root.dark {} 块中。修改深色值时要同时更新两处，
+ * 否则 globals.css 中的硬编码值会覆盖此处的声明。
+ */
 export const theme = {
   light: {
     ink:        "#1D1D1F",   // primary → title / body

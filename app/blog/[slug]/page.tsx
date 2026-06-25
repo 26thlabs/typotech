@@ -9,16 +9,25 @@ import { BackLink } from "@/components/back-link";
 // 缓存 MDX import + 正文文本，避免 generateMetadata 和 Page 重复编译
 const mdxCache = new Map<string, { default: any; metadata: any; body: string }>();
 
-/** 移除文件顶部的 `export const metadata = { ... }`（大括号计数，容忍 } 在字符串中） */
+/** 移除文件顶部的 `export const metadata = { ... }`（大括号计数，跳过字符串字面量） */
 function stripMetadata(raw: string): string {
   const start = raw.indexOf("export const metadata");
   if (start === -1) return raw;
   const brace = raw.indexOf("{", start);
   if (brace === -1) return raw;
   let depth = 0;
+  let inString: false | "'" | '"' | '`' = false;
   for (let i = brace; i < raw.length; i++) {
-    if (raw[i] === "{") depth++;
-    else if (raw[i] === "}") { depth--; if (depth === 0) return raw.slice(0, start) + raw.slice(i + 1); }
+    const ch = raw[i];
+    // 处理字符串边界（跳过转义字符）
+    if (inString) {
+      if (ch === "\\") { i++; continue; }
+      if (ch === inString) { inString = false; }
+      continue;
+    }
+    if (ch === "'" || ch === '"' || ch === "`") { inString = ch; continue; }
+    if (ch === "{") depth++;
+    else if (ch === "}") { depth--; if (depth === 0) return raw.slice(0, start) + raw.slice(i + 1); }
   }
   return raw;
 }

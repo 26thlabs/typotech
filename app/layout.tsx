@@ -46,6 +46,9 @@ export const metadata: Metadata = {
     description: site.description,
     type: "website",
     url: site.url,
+    siteName: site.name,
+    locale: "zh_CN",
+    images: [{ url: "/images/banner.svg", width: 1440, height: 480 }],
   },
   twitter: {
     card: "summary",
@@ -59,6 +62,7 @@ function themeCSS() {
   const { light } = theme;
   const s = light.shiki;
   return `:root {
+  color-scheme: light;
   --color-ink: ${light.ink};
   --color-ink-secondary: ${light.inkSecondary};
   --color-ink-tertiary: ${light.inkTertiary};
@@ -93,12 +97,7 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{ __html: themeCSS() }} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{var t=window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";document.documentElement.classList.add(t);document.documentElement.classList.add("theme-ready")}catch(e){}`,
-          }}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{window.matchMedia("(prefers-color-scheme:dark)").addEventListener("change",function(e){var r=document.documentElement;var t=e.matches?"dark":"light";var a=function(){if(t==="dark"){r.classList.add("dark");r.classList.remove("light")}else{r.classList.remove("dark");r.classList.add("light")}};if(document.startViewTransition){document.startViewTransition(function(){a()})}else{a()}})}catch(e){}`,
+            __html: `(function(){var h=document.documentElement;var s;try{s=localStorage.getItem('theme')}catch(e){s=null}s=s||'system';h.setAttribute('data-theme',s);var d;try{d=(s==='dark')?true:(s==='light')?false:window.matchMedia('(prefers-color-scheme:dark)').matches}catch(e){d=false}h.classList.add(d?'dark':'light');h.classList.add('theme-ready');try{window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(e){try{if(h.getAttribute('data-theme')!=='system')return;var a=e.matches?'dark':'light',r=e.matches?'light':'dark';function x(){h.classList.add(a);h.classList.remove(r)}if(document.startViewTransition){document.startViewTransition(function(){x()})}else{x()}}catch(e){}})}catch(e){}})();`,
           }}
         />
       </head>
@@ -110,7 +109,7 @@ export default function RootLayout({
           跳到内容
         </a>
         <Header />
-        <main id="main-content" className="flex-1 flex flex-col my-4 max-w-[720px] mx-auto w-full px-4 sm:px-6">
+        <main id="main-content" tabIndex={-1} className="flex-1 flex flex-col my-4 max-w-[720px] mx-auto w-full px-4 sm:px-6">
           {children}
         </main>
         <Footer />
